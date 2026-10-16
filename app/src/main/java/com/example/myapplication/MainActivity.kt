@@ -1,4 +1,6 @@
 ﻿package com.example.myapplication
+
+import com.example.myapplication.ui.theme.ThemeState
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -45,7 +47,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent { MyApplicationTheme { AppMainNavigation() } }
+        setContent { MyApplicationTheme(darkTheme = ThemeState.isDarkTheme) { AppMainNavigation() } }
     }
 }
 @Composable
@@ -60,7 +62,8 @@ fun AppMainNavigation() {
             composable(AppDestination.Login.route) { LoginScreen(onLoginClick = { navController.navigate(AppDestination.Feed.route) { popUpTo(AppDestination.Login.route) { inclusive = true } } }, onNavigateToCadastro = { navController.navigate(AppDestination.Cadastro.route) }, onNavigateToEsqueciSenha = { navController.navigate(AppDestination.EsqueciSenha.route) }) }
             composable(AppDestination.Cadastro.route) { CadastroScreen(onBackClick = { navController.popBackStack() }, onCadastroSuccess = { navController.navigate(AppDestination.Feed.route) { popUpTo(0) } }) }
             composable(AppDestination.EsqueciSenha.route) { EsqueciSenhaScreen(onBackClick = { navController.popBackStack() }) }
-            composable(AppDestination.Feed.route) { FeedMainScreen(onNavigateToMesas = { navigateSingleTop(navController, AppDestination.Dados.route) }, onNavigateToAvaliacao = { navigateSingleTop(navController, AppDestination.Avaliacao.route) }, onNavigateToPerfil = { navigateSingleTop(navController, AppDestination.Perfil.route) }) }
+            composable(AppDestination.Feed.route) { FeedMainScreen(
+                        onLogoutClick = { navController.navigate("login") },onNavigateToMesas = { navigateSingleTop(navController, AppDestination.Dados.route) }, onNavigateToAvaliacao = { navigateSingleTop(navController, AppDestination.Avaliacao.route) }, onNavigateToPerfil = { navigateSingleTop(navController, AppDestination.Perfil.route) }) }
             composable(AppDestination.Dados.route) { DadosScreen() }
             composable(AppDestination.Mapa.route) { MapScreen() }
             composable(AppDestination.Chat.route) { ChatScreen() }

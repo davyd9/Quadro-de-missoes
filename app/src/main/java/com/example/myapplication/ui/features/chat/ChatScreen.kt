@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.ui.theme.ThemeState
 
 data class ItemChat(
     val nomeGrupo: String,
@@ -32,18 +33,21 @@ data class ItemChat(
 fun ChatScreen() {
     var searchChat by remember { mutableStateOf("") }
 
+    val isDark = ThemeState.isDarkTheme
+    val BgDark = if (isDark) Color(0xFF0F1115) else Color(0xFFF4F6F9)
+    val CardDark = if (isDark) Color(0xFF161920) else Color(0xFFFFFFFF)
+    val InputDark = if (isDark) Color(0xFF1C2029) else Color(0xFFFFFFFF)
+    val BorderDark = if (isDark) Color(0xFF222631) else Color(0xFFE2E6EE)
+    val TextMain = if (isDark) Color.White else Color(0xFF1A1F2C)
+    val TextGray = if (isDark) Color(0xFF9E9FA4) else Color(0xFF6B7280)
+    val GoldYellow = Color(0xFFFFC737)
+
     val conversas = listOf(
         ItemChat("A Cripta Perdida (D&D 5e)", "DM Rafael", "Fichas prontas para sábado!", "10:42", 2),
         ItemChat("Mesa Tormenta20 - Arton", "Lucas", "Vou levar os dados extras.", "Ontem", 0),
         ItemChat("Ludoteca Taverna Geek", "Suporte", "Reserva presencial confirmada.", "Terça", 0),
         ItemChat("Mestre Arthur", "DM Arthur", "Ficha aprovada!", "24/mai", 0)
     )
-
-    val BgDark = Color(0xFF0F1115)
-    val CardDark = Color(0xFF161920)
-    val InputDark = Color(0xFF1C2029)
-    val GoldYellow = Color(0xFFFFD152)
-    val TextGray = Color(0xFF9E9FA4)
 
     Surface(modifier = Modifier.fillMaxSize(), color = BgDark) {
         Column(
@@ -53,7 +57,7 @@ fun ChatScreen() {
         ) {
             Text(
                 text = "Mensagens & Grupos",
-                color = Color.White,
+                color = TextMain,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -67,10 +71,10 @@ fun ChatScreen() {
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedContainerColor = InputDark,
                     unfocusedContainerColor = InputDark,
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White,
+                    focusedTextColor = TextMain,
+                    unfocusedTextColor = TextMain,
                     focusedBorderColor = GoldYellow,
-                    unfocusedBorderColor = Color.Transparent
+                    unfocusedBorderColor = BorderDark
                 ),
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier.fillMaxWidth()
@@ -85,7 +89,7 @@ fun ChatScreen() {
                         shape = RoundedCornerShape(14.dp),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .border(1.dp, Color(0xFF222631), RoundedCornerShape(14.dp))
+                            .border(1.dp, BorderDark, RoundedCornerShape(14.dp))
                     ) {
                         Row(
                             modifier = Modifier
@@ -96,7 +100,7 @@ fun ChatScreen() {
                             Box(
                                 modifier = Modifier
                                     .size(46.dp)
-                                    .background(Color(0xFF242A38), CircleShape),
+                                    .background(if (isDark) Color(0xFF242A38) else Color(0xFFE8EDF5), CircleShape),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(Icons.Default.Group, contentDescription = null, tint = GoldYellow)
@@ -111,7 +115,7 @@ fun ChatScreen() {
                                 ) {
                                     Text(
                                         text = chat.nomeGrupo,
-                                        color = Color.White,
+                                        color = TextMain,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 15.sp,
                                         maxLines = 1,
